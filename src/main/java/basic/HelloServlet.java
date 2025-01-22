@@ -31,6 +31,8 @@ public class HelloServlet extends HttpServlet {
 		PrintWriter out = response.getWriter(); //연필 객체 생성해 out 안에 넣어줌 업캐스팅 시킴 
 		
 		
+		
+		
 		out.print("<html>");
 		out.print("<head>");
 		out.print("<title>");
@@ -39,7 +41,7 @@ public class HelloServlet extends HttpServlet {
 		out.print("</head>");
 		out.print("<body>");
 		out.print("<h1>hello Servlet</h1>");
-		out.print("<div>아ㅣㅇ고</div>");
+		out.print("<div>타자 연습 하자</div>");
 		out.print("</body>");
 		out.print("</html>");
 	
