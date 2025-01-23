@@ -38,30 +38,32 @@ public class SaveFriendServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// post 방식으로 호출 되었을때
 				System.out.println("친구가 저장됨!!!!!!!!");
-				//request 응답 받아 처리 request.getParameter
-				request.setCharacterEncoding("utf-8");
-				String name = request.getParameter("friendName"); 
-				String mobile = request.getParameter("mobile");
-				String addr = request.getParameter("addr");
+String redirectPage = null;
 				
-				FriendDTO newFriend = new FriendDTO(name, mobile, addr);
-				System.out.println(newFriend.toString());
-				
-				FriendDAO dao = FriendDAOImpl.getInstance(); //싱글톤 getInstance 호출 방식
+				FriendDAO dao = FriendDAOImpl.getInstance();
 				try {
 					int result = dao.insertFriend(newFriend);
 					
 					if (result == 1) {
 						// 저장 성공
-						response.sendRedirect("./friend/viewFriends.jsp?isSave=true");
+						redirectPage = request.getContextPath() + "/getFriend.do?isSave=true";
 					} 
-				} catch (SQLException |NamingException e) {
+				} catch (SQLException | NamingException e) {
 					// DB 접속에 실패하던, 제약조건위배해서 저장 실패하던지 다 예외로 오게된다. (위 if문에서 else문 필요x)
 					// 저장 실패
 					e.printStackTrace();
 					
-					response.sendRedirect("./friend/viewFriends.jsp?isSave=false");
+					String msg = e.getMessage();
+			
+					if (e instanceof SQLException && msg.contains("HR.FRIENDS_MOBILE_UQ")) {
+						System.out.println("핸드폰 번호 중복!!!!!!!!!!!!!!!!!!");
+						redirectPage = request.getContextPath() + "/friend/addFriend.jsp?status=mobileUQ";
+					}
+					
+//					redirectPage = request.getContextPath() + "/getFriend.do?isSave=false";
 				}
+				
+				response.sendRedirect(redirectPage);
 	}
 
 }
