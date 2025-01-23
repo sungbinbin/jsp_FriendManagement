@@ -1,12 +1,16 @@
 package friendContoller;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.FriendDAO;
+import model.FriendDAOImpl;
 import model.FriendDTO;
 
 
@@ -25,30 +29,38 @@ public class SaveFriendServlet extends HttpServlet {
 
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
-		response.sendRedirect("./freend/addFriend.jsp"); // get 방식으로 호출을 할 경우에는 저장할 친구 데이터가 업기 때믄에 친구데이터를 입력 받는 페이지로 강제 이동
+		response.sendRedirect("./friend/addFriend.jsp"); // get 방식으로 호출을 할 경우에는 저장할 친구 데이터가 업기 때믄에 친구데이터를 입력 받는 페이지로 강제 이동
 		
 	}
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// post 방식 호출됨
-		System.out.println("친구저장");
-		doGet(request, response);
-		
-		
-		
-	    // 응답 데이터의 인코딩 설정
-		request.setCharacterEncoding("utf-8"); // HTTP 요청 또는 HTTP 응답의 문자 인코딩(Charset)을 설정하는 메서드
-		// 클라이언트가 보낸 데이터 읽기
-		String name =request.getParameter("friendName");
-		String mobile =request.getParameter("mobile");
-		String addr =request.getParameter("addr");
-
-		FriendDTO newFriend =new FriendDTO(name,mobile,addr);
-		
-		
-		
-		System.out.println(name+","+mobile+","+addr);
+		// post 방식으로 호출 되었을때
+				System.out.println("친구가 저장됨!!!!!!!!");
+				
+				request.setCharacterEncoding("utf-8");
+				String name = request.getParameter("friendName");
+				String mobile = request.getParameter("mobile");
+				String addr = request.getParameter("addr");
+				
+				FriendDTO newFriend = new FriendDTO(name, mobile, addr);
+				System.out.println(newFriend.toString());
+				
+				FriendDAO dao = FriendDAOImpl.getInstance();
+				try {
+					int result = dao.insertFriend(newFriend);
+					
+					if (result == 1) {
+						// 저장 성공
+						response.sendRedirect("./friend/viewFriends.jsp?isSave=true");
+					} 
+				} catch (SQLException e) {
+					// DB 접속에 실패하던, 제약조건위배해서 저장 실패하던지 다 예외로 오게된다. (위 if문에서 else문 필요x)
+					// 저장 실패
+					e.printStackTrace();
+					
+					response.sendRedirect("./friend/viewFriends.jsp?isSave=false");
+				}
 	}
 
 }
