@@ -10,5 +10,5 @@ public interface FriendDAO {
 	int insertFriend(FriendDTO newFriend)throws SQLException, NamingException;
 	
 	//친구 목록 가져오기
-	List<Friend> selectFriend() throws SQLException, NamingException;
+	List<Friend> selectFriends() throws SQLException, NamingException;
 }

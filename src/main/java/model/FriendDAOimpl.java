@@ -51,7 +51,7 @@ public class FriendDAOImpl implements FriendDAO {
 	}
 
 	@Override
-	public List<Friend> selectFriend() throws SQLException, NamingException {
+	public List<Friend> selectFriends() throws SQLException, NamingException {
 		Connection con = DBConn.getConnection();
 
 		List<Friend> result = new ArrayList<Friend>();
