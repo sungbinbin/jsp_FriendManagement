@@ -15,12 +15,12 @@ public class SaveFriendServlet extends HttpServlet {
     
     public SaveFriendServlet() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
 	}
@@ -31,12 +31,16 @@ public class SaveFriendServlet extends HttpServlet {
 		System.out.println("친구저장");
 		doGet(request, response);
 		
-		request.setCharacterEncoding("UTF-8");
+		
+		
+	    // 응답 데이터의 인코딩 설정
+		request.setCharacterEncoding("utf-8"); // HTTP 요청 또는 HTTP 응답의 문자 인코딩(Charset)을 설정하는 메서드
+		// 클라이언트가 보낸 데이터 읽기
 		String name =request.getParameter("friendName");
 		String mobile =request.getParameter("mobile");
 		String addr =request.getParameter("addr");
 
-		System.out.println(name);
+		System.out.println(name+","+mobile+","+addr);
 	}
 
 }
