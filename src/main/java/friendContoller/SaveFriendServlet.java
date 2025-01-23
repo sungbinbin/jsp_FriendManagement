@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.FriendDTO;
+
 
 @WebServlet("/save.do") //mapping : /save.do 가 호출되면 현재의 서블릿 객체가 실행됨
 public class SaveFriendServlet extends HttpServlet {
@@ -42,6 +44,10 @@ public class SaveFriendServlet extends HttpServlet {
 		String mobile =request.getParameter("mobile");
 		String addr =request.getParameter("addr");
 
+		FriendDTO newFriend =new FriendDTO(name,mobile,addr);
+		
+		
+		
 		System.out.println(name+","+mobile+","+addr);
 	}
 
