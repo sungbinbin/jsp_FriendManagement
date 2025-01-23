@@ -18,7 +18,7 @@
             <li class="nav-item"><a class="nav-link active" href="${contextPath }/index.jsp">친구관리</a>
             </li>
             <li class="nav-item"><a class="nav-link" href="${contextPath }/friend/addFriend.jsp">친구저장</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+            <li class="nav-item"><a class="nav-link" href="${contextPath }/getFriend.do">친구목록</a></li>
             <li class="nav-item"><a class="nav-link disabled" href="#">Disabled</a>
             </li>
          </ul>
