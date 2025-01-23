@@ -23,6 +23,8 @@ public class SaveFriendServlet extends HttpServlet {
 
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
+		response.sendRedirect("./freend/addFriend.jsp"); // get 방식으로 호출을 할 경우에는 저장할 친구 데이터가 업기 때믄에 친구데이터를 입력 받는 페이지로 강제 이동
+		
 	}
 
 	
