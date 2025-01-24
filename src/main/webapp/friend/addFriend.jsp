@@ -45,6 +45,30 @@ pageEncoding="UTF-8"%>
         } else {
           $("#mobileErrorMsg").remove();
           // 중복인지 아닌지 검사
+
+          $.ajax({
+            url: "<%=request.getContextPath()%>/mobileCheck.do", // 전송 받을 데이터 url
+            type: "GET", // 통신방식 (GET, POST, PUT, DELETE)
+            data: {
+              //서버에 전송할 데이터
+              userInputMobile: mobile,
+            },
+
+            dataType: "json", // 전송 받을 데이터 타입 (text, xml, json)
+            async: false,
+            success: function (data) {
+              // 통신이 성공했을 때 실행 될 콜백 함수
+              console.log(data);
+              if (data.isDuplicate == "true") {
+                $("#mobile").val("");
+                outputError(
+                  "핸드폰 번호가 중복됩니다!",
+                  $("#mobile"),
+                  "mobileErrorMsg"
+                );
+              }
+            },
+          });
         }
 
         https: return result;
