@@ -11,4 +11,8 @@ public interface FriendDAO {
 	
 	//친구 목록 가져오기
 	List<Friend> selectFriends() throws SQLException, NamingException;
+	
+	// 전화번호가 중복인지 아닌지 검사 (중복 : true, 중복x : false)
+		boolean selectMobile(String userInputMobile) throws NamingException, SQLException;
+	
 }

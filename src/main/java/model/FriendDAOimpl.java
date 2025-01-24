@@ -32,7 +32,7 @@ public class FriendDAOImpl implements FriendDAO {
 		int result = 0;
 
 		if (con != null) {
-			String query = "insert into FRIENDS " + "VALUES(seq_friend.nextval, ?, ?, ?)";
+			String query = "insert into FRIENDS " + "VALUES(seq_friendNo.nextval, ?, ?, ?)";
 
 			PreparedStatement pstmt = con.prepareStatement(query);
 
@@ -54,7 +54,7 @@ public class FriendDAOImpl implements FriendDAO {
 	public List<Friend> selectFriends() throws SQLException, NamingException {
 		Connection con = DBConn.getConnection();
 
-		List<Friend> result = new ArrayList<Friend>();
+		List<Friend> result = new ArrayList<Friend>(); //list에 result 값을 받는다 
 		if (con != null) {
 			String query = "select * from FRIENDS ORDER BY FRIENDNO DESC";
 
@@ -72,6 +72,31 @@ public class FriendDAOImpl implements FriendDAO {
 		}
 		return result;
 
+	}
+
+	@Override
+	public boolean selectMobile(String userInputMobile) throws NamingException, SQLException {
+		Connection con = DBConn.getConnection();
+		boolean result = false;
+		
+		if (con != null) {
+			String query = "select mobile from FRIENDS where MOBILE = ?";
+			
+			PreparedStatement pstmt = con.prepareStatement(query);
+			pstmt.setString(1, userInputMobile);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				result = true;
+			}
+			
+			DBConn.closeDB(rs, pstmt, con);
+			
+		}
+		
+		return result;
+	
 	}
 
 }
