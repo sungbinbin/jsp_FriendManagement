@@ -34,7 +34,7 @@ pageEncoding="UTF-8"%>
         let result = false;
 
         let mobile = $("#mobile").val();
-        let mobileRegEXP = /^01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/;
+        let mobileRegEXP = /^01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/; //정규표현식
 
         if (!mobileRegEXP.test(mobile)) {
           outputError(
@@ -43,6 +43,7 @@ pageEncoding="UTF-8"%>
             "mobileErrorMsg"
           );
         } else {
+          //번호
           $("#mobileErrorMsg").remove();
           // 중복인지 아닌지 검사
 
@@ -66,12 +67,14 @@ pageEncoding="UTF-8"%>
                   $("#mobile"),
                   "mobileErrorMsg"
                 );
+              } else if (data.isDuplicate == "false") {
+                result = true;
               }
             },
           });
         }
 
-        https: return result;
+        return result;
       }
 
       function isValidName() {
