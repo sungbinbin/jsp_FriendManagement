@@ -38,7 +38,18 @@ public class SaveFriendServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// post 방식으로 호출 되었을때
 				System.out.println("친구가 저장됨!!!!!!!!");
-String redirectPage = null;
+				
+				request.setCharacterEncoding("utf-8");
+				
+	            String name = request.getParameter("friendName");
+	            String mobile = request.getParameter("mobile");
+	            String addr = request.getParameter("addr");
+	            
+	            FriendDTO newFriend = new FriendDTO(name, mobile, addr);
+	            
+	            System.out.println(newFriend.toString());
+	            
+				String redirectPage = null;
 				
 				FriendDAO dao = FriendDAOImpl.getInstance();
 				try {
