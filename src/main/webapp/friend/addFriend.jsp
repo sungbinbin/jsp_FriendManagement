@@ -1,25 +1,53 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
       $(function () {
+        // 이름을 입력하고 blur 되었을때
         $("#friendName").blur(function () {
           isValidName();
+        });
+
+        // 전화번호 입력 후 blur 되었을때
+        $("#mobile").blur(function () {
+          isValidMobile();
         });
       });
 
       function isValid() {
         let result = false;
 
-        // 유효성 검사를 진행 한 후
-        isValidName(); // 이름이 유효하냐?
+        // 유효성 검사(이름, 전화번호)를 진행 한 후
+        if (isValidName() && isValidMobile()) {
+          result = true;
+        }
 
         return result;
+      }
+
+      function isValidMobile() {
+        let result = false;
+
+        let mobile = $("#mobile").val();
+        let mobileRegEXP = /^01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/;
+
+        if (!mobileRegEXP.test(mobile)) {
+          outputError(
+            "핸드폰 번호 형식이 아입니다!",
+            $("#mobile"),
+            "mobileErrorMsg"
+          );
+        } else {
+          $("#mobileErrorMsg").remove();
+          // 중복인지 아닌지 검사
+        }
+
+        https: return result;
       }
 
       function isValidName() {
@@ -27,54 +55,69 @@
 
         let fName = $("#friendName").val();
         if (fName == "" || fName == null) {
-          $(".errorMsg").remove();
-          let errorMsg = `<div class="alert alert-danger errorMsg"><strong>에러!</strong> 이름은 반드시 입력하셔야 합니다.</div>`;
-          $(errorMsg).insertAfter($("#friendName"));
-          $("#friendName").focus();
+          outputError(
+            "이름은 반드시 입력 해야 합니다!",
+            $("#friendName"),
+            "nameErrorMsg"
+          );
         } else {
           result = true;
+          $("#nameErrorMsg").remove();
         }
 
         return result;
       }
+
+      function outputError(msg, obj, idVal) {
+        $("#" + idVal).remove();
+        let errorMsg = `<div class="alert alert-danger errorMsg" id="\${idVal}"><strong>에러!</strong>\${msg}</div>`; // (\) el문은 반드시 역슬러쉬를 해야한다
+        $(errorMsg).insertAfter(obj);
+        $(obj).focus();
+      }
     </script>
+  </head>
+  <body>
+    <jsp:include page="../header.jsp"></jsp:include>
+    <div class="container">
+      <form action="<%=request.getContextPath() %>/save.do" method="post">
+        <div class="mb-3 mt-3">
+          <label for="friendName" class="form-label">이름</label>
+          <input
+            type="text"
+            class="form-control"
+            id="friendName"
+            placeholder="Enter name"
+            name="friendName"
+          />
+        </div>
 
-</head>
-<body>
-	<jsp:include page="../header.jsp"></jsp:include>
-	<div class="container">
+        <div class="mb-3 mt-3">
+          <label for="mobile" class="form-label">전화번호:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="mobile"
+            placeholder="Enter mobile"
+            name="mobile"
+          />
+        </div>
 
+        <div class="mb-3 mt-3">
+          <label for="addr" class="form-label">주소:</label>
+          <textarea
+            row="5"
+            class="form-control"
+            id="addr"
+            placeholder="Enter addr"
+            name="addr"
+          ></textarea>
+        </div>
 
-
-<form action="<%=request.getContextPath() %>/save.do" method="post">
-  <div class="mb-3 mt-3">
-    <label for="friendName" class="form-label">이름</label>
-    <input type="text" class="form-control" id="friendName" placeholder="Enter name" name="friendName">
-  </div>	
-
-
-
-  <div class="mb-3 mt-3">
-    <label for="mobile" class="form-label">전화번호:</label>
-    <input type="text" class="form-control" id="mobile" placeholder="Enter mobile" name="mobile">
-  </div>
-  
-  
-  <div class="mb-3 mt-3">
-    <label for="addr" class="form-label">주소:</label>
-    <textarea row="5" class="form-control" id="addr" placeholder="Enter addr" name="addr"></textarea>
-  </div>
-  
-  
- 
-    <button type="Submit" class="btn btn-primary" onclick ="return isValid();">저장</button>
-    <button type="reset" class="btn btn-danger">취소</button>
-  
-  
-  
-  
-</form>
-</div>
-</body>
-
+        <button type="Submit" class="btn btn-primary" onclick="isisValid=false">
+          저장
+        </button>
+        <button type="reset" class="btn btn-danger">취소</button>
+      </form>
+    </div>
+  </body>
 </html>
